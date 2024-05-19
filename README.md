@@ -1,8 +1,7 @@
 # ElecBro(edited by jacksmith)
-
 <p align="center">
   <br>
- 	<img src="https://github.com/YUNSUNGWOONG/ElecBro/assets/100409315/74134551-6477-44d4-86a7-a815001fcab5" alt="elebro_logo" style="zoom:50%;" />
+ 	<img src="https://github.com/YUNSUNGWOONG/ElecBro/assets/100409315/04f77169-8e76-4ac6-84ed-26a2c2aaf04b" alt="elebro_logo" style="zoom:50%;" />
   <br>
 </p>
 
