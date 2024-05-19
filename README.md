@@ -1,7 +1,14 @@
-# Project Title
+# ElecBro(edited by jacksmith)
 
 ![0519](https://github.com/YUNSUNGWOONG/ElecBro/assets/100409315/74134551-6477-44d4-86a7-a815001fcab5)
 
+
+
+<p align="center">
+  <br>
+ 	<img src="https://github.com/YUNSUNGWOONG/ElecBro/assets/100409315/74134551-6477-44d4-86a7-a815001fcab5" alt="elebro_logo" style="zoom:80%;" />
+  <br>
+</p>
 
 Initially appeared on
 [gist](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2). But the page cannot open anymore so that is why I have moved it here.
