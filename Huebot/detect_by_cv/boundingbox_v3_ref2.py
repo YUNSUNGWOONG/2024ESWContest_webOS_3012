@@ -54,9 +54,9 @@ def draw_labels(boxes, confidences, class_ids, classes, img):
 
 def main():
     stream_url = "http://192.168.206.229:8080/?action=stream"
-    weights_path = "yolov3.weights"     # yolov3의 사전에 훈련된 가중치 파일
-    config_path = "yolov3.cfg"          # yolov3의 구성 파일
-    names_path = "coco.names"           # COCO 데이터셋의 클래스 이름 파일
+    weights_path = "yolov3.weights"
+    config_path = "yolov3.cfg"
+    names_path = "coco.names"
     
     try:
         net, classes, output_layers = load_yolo(weights_path, config_path, names_path)

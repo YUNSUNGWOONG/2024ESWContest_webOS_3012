@@ -28,7 +28,7 @@ def draw_labels(results, frame):
     return frame
 
 def main():
-    cap = cv2.VideoCapture("http://192.168.190.229:8080/?action=stream")
+    cap = cv2.VideoCapture("http://192.168.206.229:8080/?action=stream")
     if not cap.isOpened():
         print("카메라를 열 수 없습니다.")
         return -1
