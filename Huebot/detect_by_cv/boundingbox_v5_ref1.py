@@ -13,7 +13,7 @@ def detect_objects(model, frame):
     return results
 
 def draw_labels(results, frame):
-    labels, cords = results.xyxyn[0][:, -1].cpu().numpy(), results.xyxyn[0][:, :-1].cpu().numpy()
+    labels, cords = results.xyxyn[0][:, -1].numpy(), results.xyxyn[0][:, :-1].numpy()
     n = len(labels)
     x_shape, y_shape = frame.shape[1], frame.shape[0]
 
