@@ -1,69 +1,42 @@
-#include <stdio.h>
+#include <AccelStepper.h>
+/*
+이중 컨베이어 벨트를 제어하는 코드
+sketch_jul28a.ino파일을 참고함.
+*/
 
 
+// 저속벨트
+#define dirxPin 2 
+#define stepxPin 3 
+#define enablePin 4
 
-// 스텝모터 두개 다른 속도 컨베이어벨트 스타트로 운전, 스탑으로 정지 
+// 고속벨트
+#define dirxPin2 7 
+#define stepxPin2 6 
+#define enablePin2 8
+#define motorInterfaceType 1
 
-// 모터 1 핀 설정
-const int stepPin1 = 3;
-const int dirPin1 = 4;
-
-// 모터 2 핀 설정
-const int stepPin2 = 5;
-const int dirPin2 = 6;
-
-// 모터 속도 (딜레이 시간, 마이크로초)
-int speed1 = 500; // 모터 1의 속도
-int speed2 = 1000; // 모터 2의 속도
-
-bool isRunning = false; // 모터 상태
+AccelStepper stepperx = AccelStepper(motorInterfaceType, stepxPin, dirxPin);
+AccelStepper stepperx2 = AccelStepper(motorInterfaceType, stepxPin2, dirxPin2);
 
 void setup() {
-  // 모터 핀을 출력으로 설정
-  pinMode(stepPin1, OUTPUT);
-  pinMode(dirPin1, OUTPUT);
-  pinMode(stepPin2, OUTPUT);
-  pinMode(dirPin2, OUTPUT);
-
-  // 모터 방향 설정
-  digitalWrite(dirPin1, HIGH); // 모터 1의 방향 설정
-  digitalWrite(dirPin2, HIGH); // 모터 2의 방향 설정
-
-  // 시리얼 통신 시작
-  Serial.begin(9600);
-  Serial.println("Enter 'start' to run motors and 'stop' to stop motors.");
+  //저속
+  pinMode(enablePin, OUTPUT);
+  digitalWrite(enablePin, LOW);
+  stepperx.setMaxSpeed(1500);
+  stepperx.setSpeed(-1000);
+  
+  //고속
+  pinMode(enablePin2, OUTPUT);
+  digitalWrite(enablePin2, LOW);
+  stepperx2.setMaxSpeed(1500);
+  stepperx2.setSpeed(-5000);
 }
 
 void loop() {
-  // 시리얼 입력 처리
-  if (Serial.available() > 0) {
-    String command = Serial.readStringUntil('\n');
-    command.trim(); // 명령어 앞뒤 공백 제거
-
-    if (command == "start") {
-      isRunning = true;
-      Serial.println("Motors started.");
-    } else if (command == "stop") {
-      isRunning = false;
-      Serial.println("Motors stopped.");
-    } else {
-      Serial.println("Invalid command. Enter 'start' or 'stop'.");
-    }
-  }
-
-  // 모터 제어
-  if (isRunning) 
-  {
-    // 모터 1 동작
-    digitalWrite(stepPin1, HIGH);
-    delayMicroseconds(speed1);
-    digitalWrite(stepPin1, LOW);
-    delayMicroseconds(speed1);
-
-    // 모터 2 동작
-    digitalWrite(stepPin2, HIGH);
-    delayMicroseconds(speed2);
-    digitalWrite(stepPin2, LOW);
-    delayMicroseconds(speed2);
-  }
+  stepperx.setSpeed(-1000);
+  stepperx.runSpeed();
+  
+  stepperx2.setSpeed(-500);
+  stepperx2.runSpeed();
 }
