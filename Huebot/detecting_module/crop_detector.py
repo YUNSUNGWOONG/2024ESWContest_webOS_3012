@@ -2,6 +2,8 @@ import cv2
 import torch
 import numpy as np
 
+
+
 def load_yolov5():
     # YOLOv5 모델 로드
     #model = torch.hub.load('ultralytics/yolov5', 'yolov5s', trust_repo=True)  # yolov5s, yolov5m, yolov5l, yolov5x 중 선택 가능
@@ -29,7 +31,7 @@ def draw_labels(results, frame):
     return frame
 
 def main():
-    cap = cv2.VideoCapture("http://192.168.68.229:8080/?action=stream")
+    cap = cv2.VideoCapture("http://192.168.117.229:8080/?action=stream")
     if not cap.isOpened():
         print("카메라를 열 수 없습니다.")
         return -1
