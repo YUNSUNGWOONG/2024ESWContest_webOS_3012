@@ -1,9 +1,15 @@
 import cv2
 import torch
 import numpy as np
+import platform
+
+import flask
+from flask import request
+from flask import Response
+from flask import stream_with_context
 
 """
-단순히 작물을 탐지해서 cv2 윈도우에 띄우는 코드
+작물을 탐지하고 cv2 웹 스트리밍서버를 퍼블리싱하는 코드
 """
 
 def load_yolov5():
@@ -32,6 +38,43 @@ def draw_labels(results, frame):
 
     return frame
 
+
+app = Flask(__name__)
+streamer = Streamer()
+
+@app.route('/stream')
+def stream():
+    src = request.args.get('src', default=0, type=int)
+
+    try:
+        return Response(
+            stream_with_context(stream_gen(src)),
+            mimetype='multipart/x-mixed-replace; boundary=frame')
+    
+    except Exception as e:
+        
+        print('[wandlab]', 'stream error : ',str(e))
+
+def stream_gen(src):
+    try:
+        streamer.run(src)
+        while True:
+            frame = streamer.bytescode()
+            yield (b'--frame\r\n'
+                   b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+    
+    except GeneratorExit:
+        streamer.stop()
+
+
+
+
+
+
+
+
+
+
 def main():
     cap = cv2.VideoCapture("http://192.168.117.229:8080/?action=stream")
     if not cap.isOpened():
@@ -48,10 +91,18 @@ def main():
         results = detect_objects(model, frame)
         frame = draw_labels(results, frame)
 
-        cv2.imshow('video', frame)
-        if cv2.waitKey(1) == 27:  # ESC 키를 누르면 종료
-            break
+        (grabbed, frame) = capture.read()
 
+        if grabbed:
+            cv2.imshow('Wandlab Camera Window', frame)
+
+
+        cv2.imshow('video', frame)
+
+        key = cv2.waitKey(1) & 0xFF
+        if (key == 27):  # ESC 키를 누르면 종료
+            break
+    
     cap.release()
     cv2.destroyAllWindows()
 
