@@ -6,8 +6,9 @@
 </p>
 
 
-Initially appeared on
-[gist](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2). But the page cannot open anymore so that is why I have moved it here.
+2024임베디드SW경진대회(webOS부문) - ELECBRO팀
+
+
 
 ## Getting Started
 
@@ -18,44 +19,103 @@ for notes on deploying the project on a live system.
 ### Prerequisites
 
 Requirements for the software and other tools to build, test and push 
-- [Example 1](https://www.example.com)
+- [VScode](https://www.example.com)
 - [Example 2](https://www.example.com)
+
+또한, 다음과 같은 하드웨어가 필요합니다.
+
+- RaspberryPi4
+- HaviBot
+- ConveyorBelt
+- HueBot
+
+
+
+
 
 ### Installing
 
-A step by step series of examples that tell you how to get a development
-environment running
+0. 패키지 설치전 필요한 것들을 다운받아줍니다.
+   ```bash
+   sudo apt update
+   sudo apt full-upgrade
+   ```
 
-Say what the step will be
+   
 
-    Give the example
+1. 아래 명령어를 통해 라즈베리파이에 mini-forge를 셋업하여 미니콘다 셋업파일을 설치해줍니다.
+   ```bash
+   wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-aarch64.sh
+   ```
 
-And repeat
+   
 
-    until finished
+2. 설치파일을 실행해줍니다.
 
-End with an example of getting some data out of the system or using it
-for a little demo
+   - (sudo는 사용하지 않습니다.)
 
-## Running the tests
+   ```bash
+   bash Miniforge3-Linux-aarch64.sh
+   ```
 
-Explain how to run the automated tests for this system
+   - 모든건 yes로 대답하고, 기본값을 사용해준다.
 
-### Sample Tests
+   ```bash
+   Miniforge3 will now be installed into this location:
+   /home/pi/miniforge3
+   
+     - Press ENTER to confirm the location
+     - Press CTRL-C to abort the installation
+     - Or specify a different location below
+   
+   [/home/pi/miniforge3] >>>
+   ```
 
-Explain what these tests test and why
+   - 정상 수행되면, 마지막 질문에 대답하면 됩니다.
 
-    Give an example
+   ```bash
+   Transaction finished
+   installation finished.
+   Do you wish the installer to initialize Miniforge3
+   by running conda init? [yes/no]
+   [no] >>> yes
+   ```
 
-### Style test
+   - 설치가 완료되었다면 아래 절차를 이행해줍니다.
 
-Checks if the best practices and the right coding style has been used.
+   ```bash
+   conda config --set auto_activate_base false
+   export PATH=$PATH:/home/pi/miniforge3/bin
+   ```
 
-    Give an example
+   (필자는 사용자명을 pi로 두었기에 저렇게 환경변수 설정을 해주었으나, 사용자명에 맞게 위 사용자명 부분을 수정해서 사용하면 된다)
 
-## Deployment
+   - 이후 재부팅을 해준다.
 
-Add additional notes to deploy this on a live system
+   ```bash
+   sudo reboot
+   ```
+
+   (그러면 이제 터미널을 켤때 앞에 (base)가 붙은것을 확인할 수 있는데, 이는 정상적으로 아나콘다 프롬프트가 적용되었다는 뜻입니다.)
+
+3. 이후  `elecbro.yml` 파일을 활용하여 가상환경을 만들어줍니다.
+   ```bash
+   conda env create --file ./envs/elecbro.yaml
+   ```
+
+   
+
+4. 만들어진 가상환경을 실행시켜줍니다.
+
+   ```bash
+   conda activate elecbro
+   ```
+
+   
+
+
+
+
 
 ## Built With
 
@@ -66,32 +126,9 @@ Add additional notes to deploy this on a live system
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code
-of conduct, and the process for submitting pull requests to us.
+- 윤성웅(전자공학부 20학번)
+- 김현근(전기공학부 19학번)
+- 박진석(전기공학부 19학번)
+- 김재원(전기공학부 19학번)
+- 김용진(전기공학부 18학번)
 
-## Versioning
-
-We use [Semantic Versioning](http://semver.org/) for versioning. For the versions
-available, see the [tags on this
-repository](https://github.com/PurpleBooth/a-good-readme-template/tags).
-
-## Authors
-
-  - **Billie Thompson** - *Provided README Template* -
-    [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of
-[contributors](https://github.com/PurpleBooth/a-good-readme-template/contributors)
-who participated in this project.
-
-## License
-
-This project is licensed under the [CC0 1.0 Universal](LICENSE.md)
-Creative Commons License - see the [LICENSE.md](LICENSE.md) file for
-details
-
-## Acknowledgments
-
-  - Hat tip to anyone whose code is used
-  - Inspiration
-  - etc
