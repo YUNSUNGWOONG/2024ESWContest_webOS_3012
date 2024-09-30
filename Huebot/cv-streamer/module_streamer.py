@@ -6,6 +6,35 @@ import numpy as np
 from threading import Thread
 from queue import Queue
 
+import torch
+
+def load_yolov5():
+    # YOLOv5 모델 로드
+    #model = torch.hub.load('ultralytics/yolov5', 'yolov5s', trust_repo=True)  # yolov5s, yolov5m, yolov5l, yolov5x 중 선택 가능
+    model = torch.hub.load('ultralytics/yolov5', 'custom', path='./best.pt')
+    return model
+
+def detect_objects(model, frame):
+    # 객체 탐지 수행
+    results = model(frame)
+    return results
+
+def draw_labels(results, frame):
+    labels, cords = results.xyxyn[0][:, -1].cpu().numpy(), results.xyxyn[0][:, :-1].cpu().numpy()
+    n = len(labels)
+    x_shape, y_shape = frame.shape[1], frame.shape[0]
+
+    for i in range(n):
+        row = cords[i]
+        if row[4] >= 0.5:  # confidence threshold
+            x1, y1, x2, y2 = int(row[0] * x_shape), int(row[1] * y_shape), int(row[2] * x_shape), int(row[3] * y_shape)
+            bgr = (0, 255, 0)
+            cv2.rectangle(frame, (x1, y1), (x2, y2), bgr, 2)
+            cv2.putText(frame, f'{results.names[int(labels[i])]} {row[4]:.2f}', (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, bgr, 2)
+
+    return frame
+
+
 class Streamer :
     
     def __init__(self ):
@@ -27,13 +56,15 @@ class Streamer :
         
     def run(self, src = 0 ) : #"http://192.168.117.229:8080/?action=stream"
         
-        self.stop()
+        #self.stop()
     
         if platform.system() == 'Windows' :        
             self.capture = cv2.VideoCapture( src , cv2.CAP_DSHOW )
         
         else :
             self.capture = cv2.VideoCapture( src )
+
+        #model = load_yolov5()
             
         self.capture.set(cv2.CAP_PROP_FRAME_WIDTH, self.width)
         self.capture.set(cv2.CAP_PROP_FRAME_HEIGHT, self.height)
@@ -45,14 +76,14 @@ class Streamer :
         
         self.started = True
     
-    def stop(self):
+    # def stop(self):
         
-        self.started = False
+    #     self.started = False
         
-        if self.capture is not None :
+    #     if self.capture is not None :
             
-            self.capture.release()
-            self.clear()
+    #         self.capture.release()
+    #         self.clear()
             
     def update(self):
                     
