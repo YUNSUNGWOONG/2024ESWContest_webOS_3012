@@ -1,21 +1,27 @@
 import cv2
 import torch
 import numpy as np
-import platform
-
-import flask
-from flask import request
-from flask import Response
-from flask import stream_with_context
+import copy
+# import RPi.GPIO as GPIO
+import serial
+import time
 
 """
-작물을 탐지하고 cv2 웹 스트리밍서버를 퍼블리싱하는 코드
+단순히 작물을 탐지해서 cv2 윈도우에 띄우는 코드
 """
+
+# 시리얼 통신 설정
+#ser = serial.Serial('/dev/ttyUSB0', 9600, timeout=1)
+#ser.flush()
+
+# GPIO 연결 설정
+# GPIO.setwarnings(False)
+# GPIO.setmode(GPIO.BCM) #핀모드 설정(GPIO.BCM/GPIO.BOARD)
 
 def load_yolov5():
     # YOLOv5 모델 로드
     #model = torch.hub.load('ultralytics/yolov5', 'yolov5s', trust_repo=True)  # yolov5s, yolov5m, yolov5l, yolov5x 중 선택 가능
-    model = torch.hub.load('ultralytics/yolov5', 'custom', path='./best.pt')
+    model = torch.hub.load('ultralytics/yolov5', 'custom', path='./../models/best.pt')
     return model
 
 def detect_objects(model, frame):
@@ -25,6 +31,19 @@ def detect_objects(model, frame):
 
 def draw_labels(results, frame):
     labels, cords = results.xyxyn[0][:, -1].cpu().numpy(), results.xyxyn[0][:, :-1].cpu().numpy()
+    
+    # label[1]: apple
+    # label[2]: orange
+    # label[3]: lemon
+    #print(f"labels: {labels}")
+    if len(labels) > 0:
+        if labels[0] == 1:
+            print("Apple!!")
+        elif labels[0] == 2:
+            print("Orange!!")
+        elif labels[0] == 3:
+            print("Lemon!!")
+         
     n = len(labels)
     x_shape, y_shape = frame.shape[1], frame.shape[0]
 
@@ -38,45 +57,9 @@ def draw_labels(results, frame):
 
     return frame
 
-
-app = Flask(__name__)
-streamer = Streamer()
-
-@app.route('/stream')
-def stream():
-    src = request.args.get('src', default=0, type=int)
-
-    try:
-        return Response(
-            stream_with_context(stream_gen(src)),
-            mimetype='multipart/x-mixed-replace; boundary=frame')
-    
-    except Exception as e:
-        
-        print('[wandlab]', 'stream error : ',str(e))
-
-def stream_gen(src):
-    try:
-        streamer.run(src)
-        while True:
-            frame = streamer.bytescode()
-            yield (b'--frame\r\n'
-                   b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
-    
-    except GeneratorExit:
-        streamer.stop()
-
-
-
-
-
-
-
-
-
-
 def main():
-    cap = cv2.VideoCapture("http://192.168.117.229:8080/?action=stream")
+    #cap = cv2.VideoCapture("http://192.168.117.229:8080/?action=stream")
+    cap = cv2.VideoCapture(0)
     if not cap.isOpened():
         print("카메라를 열 수 없습니다.")
         return -1
@@ -88,21 +71,25 @@ def main():
         if not ret:
             break
 
-        results = detect_objects(model, frame)
-        frame = draw_labels(results, frame)
 
-        (grabbed, frame) = capture.read()
+        converted_frame = copy.deepcopy(frame)
 
-        if grabbed:
-            cv2.imshow('Wandlab Camera Window', frame)
+        # 명암 조절
+        alpha = 1.5
+        contrast_image = cv2.convertScaleAbs(converted_frame, alpha=alpha)
 
+
+        # 밝기 조절 (예시: 50만큼 밝게)
+        #brightness = 0
+        #bright_image = cv2.add(converted_frame, np.ones(converted_frame.shape, dtype=np.uint8) * brightness)
+
+        results = detect_objects(model, contrast_image)
+        frame = draw_labels(results, contrast_image)
 
         cv2.imshow('video', frame)
-
-        key = cv2.waitKey(1) & 0xFF
-        if (key == 27):  # ESC 키를 누르면 종료
+        if cv2.waitKey(1) == 27:  # ESC 키를 누르면 종료
             break
-    
+
     cap.release()
     cv2.destroyAllWindows()
 
