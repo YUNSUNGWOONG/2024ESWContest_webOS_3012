@@ -1,5 +1,7 @@
 #include <AccelStepper.h>
 
+// 기존에 모터를 제어하는 예제용 코드
+
 #define enablePin 8
 #define dirxPin 2 //5
 #define stepxPin 5 //2
