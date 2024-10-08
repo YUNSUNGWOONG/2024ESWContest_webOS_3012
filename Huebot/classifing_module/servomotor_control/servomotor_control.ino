@@ -1,5 +1,7 @@
 #include <Servo.h>
 
+#define servoPin 9
+
 Servo myservo;
 
 // 구역별 회전에 필요한 시간(1433ms는 360도 회전)
@@ -20,7 +22,7 @@ int getRotationTime(int targetTime) {
 
 void setup() {
   Serial.begin(9600);
-  myservo.attach(9); // 서보모터 핀에 연결
+  myservo.attach(servoPin); // 서보모터 핀에 연결
   myservo.write(90);  // 중립 위치로 설정 (정지 상태)
   Serial.println("Enter 'R' for the 1st zone (120 degrees), 'G' for the 2nd zone (240 degrees), or 'D' for the 3rd zone (360 degrees).");
 }
