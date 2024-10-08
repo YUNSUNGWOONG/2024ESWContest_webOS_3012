@@ -1,3 +1,4 @@
+#include <AccelStepper.h>
 #include <Servo.h>
 
 Servo myservo;
@@ -9,6 +10,40 @@ const int timeToReach360Degrees = 1373; // 360도 도달 시간
 
 int currentTime = 0; // 현재 위치를 기준으로 걸린 시간을 저장(0부터 시작)
 
+
+// 저속벨트
+#define dirxPin 2 
+#define stepxPin 3 
+#define enablePin 4
+
+// 고속벨트
+#define dirxPin2 7 
+#define stepxPin2 6 
+#define enablePin2 8
+#define motorInterfaceType 1
+
+AccelStepper stepperx = AccelStepper(motorInterfaceType, stepxPin, dirxPin);
+AccelStepper stepperx2 = AccelStepper(motorInterfaceType, stepxPin2, dirxPin2);
+
+void setup(){
+  Serial.begin(9600);
+  myservo.attach(9); // 서보모터 핀에 연결
+  myservo.write(90);  // 중립 위치로 설정 (정지 상태)
+  Serial.println("Enter 'R' for the 1st zone (120 degrees), 'G' for the 2nd zone (240 degrees), or 'D' for the 3rd zone (360 degrees).");
+
+  //저속
+  pinMode(enablePin, OUTPUT);
+  digitalWrite(enablePin, LOW);
+  stepperx.setMaxSpeed(1500);
+  stepperx.setSpeed(-1000);
+  
+  //고속
+  pinMode(enablePin2, OUTPUT);
+  digitalWrite(enablePin2, LOW);
+  stepperx2.setMaxSpeed(1500);
+  stepperx2.setSpeed(-5000);
+}
+
 // 목표 위치에 도달하기 위한 시간 계산 함수
 int getRotationTime(int targetTime) {
   int rotationTime = targetTime - currentTime;
@@ -18,15 +53,24 @@ int getRotationTime(int targetTime) {
   return rotationTime;
 }
 
-void setup() {
-  Serial.begin(9600);
-  myservo.attach(9); // 서보모터 핀에 연결
-  myservo.write(90);  // 중립 위치로 설정 (정지 상태)
-  Serial.println("Enter 'R' for the 1st zone (120 degrees), 'G' for the 2nd zone (240 degrees), or 'D' for the 3rd zone (360 degrees).");
+void activate_belt(){
+    stepperx.setSpeed(-500);
+    stepperx.runSpeed();
+    
+    stepperx2.setSpeed(-1000);
+    stepperx2.runSpeed();
 }
 
-void loop() {
+void deactivate_belt(){
+    stepperx.setSpeed(0);
+    stepperx.runSpeed();
+    
+    stepperx2.setSpeed(0);
+    stepperx2.runSpeed();
+}
+void loop(){
   if (Serial.available() > 0) {
+    deactivate_belt();
     char input = Serial.read(); // 문자 입력 받기
     int targetTime = 0;         // 목표 시간(구역별 회전시간)
 
@@ -69,5 +113,7 @@ void loop() {
     currentTime = targetTime;
 
     delay(500); // 다음 입력을 기다리기 전에 약간의 지연
+  }else{
+    activate_belt();
   }
 }

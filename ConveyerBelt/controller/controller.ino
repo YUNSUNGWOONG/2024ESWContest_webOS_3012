@@ -4,7 +4,6 @@
 sketch_jul28a.ino파일을 참고함.
 */
 
-
 // 저속벨트
 #define dirxPin 2 
 #define stepxPin 3 
@@ -34,9 +33,9 @@ void setup() {
 }
 
 void loop() {
-  stepperx.setSpeed(-1000);
+  stepperx.setSpeed(-500);
   stepperx.runSpeed();
   
-  stepperx2.setSpeed(-500);
+  stepperx2.setSpeed(-1000);
   stepperx2.runSpeed();
 }
