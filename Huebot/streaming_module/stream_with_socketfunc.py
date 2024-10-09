@@ -6,14 +6,16 @@ from models.common import DetectMultiBackend
 from utils.general import non_max_suppression, scale_boxes
 from utils.plots import Annotator, colors
 from utils.torch_utils import select_device
+import time
 
 """
-객체를 검출할때마다 딜레이없이 검출값을 소켓으로 실시간 보내는 코드
+서브함수를 따로 빼서 추출한 라벨을 소켓통신하는 코드
 """
-
 
 app = Flask(__name__)
 socketio = SocketIO(app)
+
+label = None  # 전역 변수 선언
 
 @app.route('/')
 def Stream():
@@ -55,11 +57,8 @@ def GenerateFrames():
                 det[:, :4] = scale_boxes(img.shape[2:], det[:,:4], frame.shape).round()
 
                 for *xyxy, conf, cls in reversed(det):
-                    label = f'{names[int(cls)]}'
+                    label = f'{names[int(cls)]}'  # 글로벌 변수 업데이트
                     annotator.box_label(xyxy, label, color=colors(cls, True))
-                    
-                    # SocketIO로 label 값을 클라이언트에 전송
-                    socketio.emit('label', {'label': label})
 
             frame = annotator.result()
             ret, buffer = cv2.imencode('.jpg', frame)
@@ -67,5 +66,15 @@ def GenerateFrames():
             yield(b'--frame\r\n'
                   b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
+def send_real_label_data():
+    global label
+    while True:
+        if label:
+            print(f"Current label: {label}")  # label 값 출력
+            socketio.emit('label', {'label': label})
+        time.sleep(0.1)  # 1초마다 확인 및 전송
+
 if __name__ == '__main__':
+    # send_real_label_data를 백그라운드 태스크로 시작
+    socketio.start_background_task(target=send_real_label_data)
     socketio.run(app, host='0.0.0.0', port=5000)
