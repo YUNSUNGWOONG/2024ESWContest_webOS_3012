@@ -113,6 +113,8 @@ void loop(){
     currentTime = targetTime;
 
     delay(500); // 다음 입력을 기다리기 전에 약간의 지연
+    activate_belt();
+
   }else{
     activate_belt();
   }
