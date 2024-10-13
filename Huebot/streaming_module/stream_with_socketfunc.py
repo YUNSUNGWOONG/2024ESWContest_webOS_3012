@@ -23,7 +23,7 @@ def Stream():
 
 def GenerateFrames():
     global label
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(1)
 
     if not cap.isOpened():
         print("Camera is not opened!")
@@ -59,7 +59,8 @@ def GenerateFrames():
                 for *xyxy, conf, cls in reversed(det):
                     label = f'{names[int(cls)]}'  # 글로벌 변수 업데이트
                     annotator.box_label(xyxy, label, color=colors(cls, True))
-
+            else:
+                label = None 
             frame = annotator.result()
             ret, buffer = cv2.imencode('.jpg', frame)
             frame = buffer.tobytes()
@@ -72,7 +73,9 @@ def send_real_label_data():
         if label:
             print(f"Current label: {label}")  # label 값 출력
             socketio.emit('label', {'label': label})
-        time.sleep(0.1)  # 1초마다 확인 및 전송
+            time.sleep(5)
+        else:
+            time.sleep(0.1)  # 1초마다 확인 및 전송
 
 if __name__ == '__main__':
     # send_real_label_data를 백그라운드 태스크로 시작

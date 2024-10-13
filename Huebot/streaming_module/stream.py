@@ -21,14 +21,15 @@ def Stream():
 
 def GenerateFrames():
     global label
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(1)
 
     if not cap.isOpened():
         print("Camera is not opened!")
         return -1
 
     weights = './best.pt'
-    device = select_device('cuda:0')
+    device = select_device('0')
+    print(device)
     model = DetectMultiBackend(weights, device=device)
     names = model.names
 
