@@ -1,134 +1,67 @@
-# ElecBro(edited by jacksmith)
+# 2024임베디드SW경진대회(webOS부문) - ELECBRO팀
 <p align="center">
   <br>
- 	<img src="https://github.com/user-attachments/assets/67315750-e5d9-4546-bf5f-3e2b63acf252" alt="elebro_logo" style="zoom:50%;" />
+ 	<img src="" alt="elebro_logo" style="zoom:50%;" />
   <br>
 </p>
 
 
-2024임베디드SW경진대회(webOS부문) - ELECBRO팀
+
+# 작품 명: AGRIBOT
+
+## 작품개요
+**"농업의 미래를 바꾸다", 자동화 작물공정 혁신 솔루션, AGRIBOT**<br>
+고령화로 인한 농업인력의 감소와 
 
 
 
-## Getting Started
+##  개발일정
 
-These instructions will give you a copy of the project up and running on
-your local machine for development and testing purposes. See deployment
-for notes on deploying the project on a live system.
-
-### Prerequisites
-
-Requirements for the software and other tools to build, test and push 
-- [VScode](https://www.example.com)
-- [Example 2](https://www.example.com)
-
-또한, 다음과 같은 하드웨어가 필요합니다.
-
-- RaspberryPi4
-- HaviBot
-- ConveyorBelt
-- HueBot
+![image-20241026005432968](./assets/images/README/image-20241026005432968.png)
 
 
 
 
 
-### Installing
+## 업무분장
 
-0. 패키지 설치전 필요한 것들을 다운받아줍니다.
-   ```bash
-   sudo apt update
-   sudo apt full-upgrade
-   ```
+**"농업의 미래를 앞당기는 팀원들"**
 
-   
+| Profile | Role | Part | Tech Stack |
+| ------- | ---- | ---- | ---------- |
+| <div align="center"><a href="https://blog.naver.com/yhon89"><img src="./assets/images/README/hyongoon.png" width="80px;" alt=""/><br/><sub><b>김현근</b><sub></a></div> | 팀장 | webOS구축, Luna-Service 개발 | NodeJS, ReactJS, Arduino, MongoDB, Arduino |
+| <div align="center"><a href="https://blog.naver.com/yhon89"><img src="./assets/images/README/sungwoong.png" width="80px;" alt=""/><br/><sub><b>윤성웅</b><sub></a></div> | 팀원 | 프로세서 설계,YOLOv5 API 개발, Vision Model 개발 | Pytorch,OpenCV,RaspberryPI,AUTOSAR |
+| <div align="center"><a href="https://blog.naver.com/yhon89"><img src="./assets/images/README/jinseok.png" width="80px;" alt=""/><br/><sub><b>박진석<sub></a></div> | 팀원 | ROS개발환경 구축, Turtlebot 개발, ROS-Bridge 개발 | NodeJS, MongoDB, ROS, PointCloud |
+| <div align="center"><a href="https://blog.naver.com/yhon89"><img src="./assets/images/README/jaewon.png" width="80px;" alt=""/><br/><sub><b>김재원</b><sub></a></div> | 팀원 | 데이터 수집 및 라벨링, 데이터 학습 | Python, tkinter, NodeJS, ReactJS, Arduino |
+| <div align="center"><a href="https://blog.naver.com/yhon89"><img src="./assets/images/README/yongjin.png" width="80px;" alt=""/><br/><sub><b>김용진</b><sub></a></div> | 팀원 | 프로토타입 설계, 스마트팜 부지 설계 | C/C++, Arduino, Fusion360, P-Spice |
 
-1. 아래 명령어를 통해 라즈베리파이에 mini-forge를 셋업하여 미니콘다 셋업파일을 설치해줍니다.
-   ```bash
-   wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-aarch64.sh
-   ```
 
-   
 
-2. 설치파일을 실행해줍니다.
+### Team SLOGAN
 
-   - (sudo는 사용하지 않습니다.)
+**Accelerating the World's Transition to Sustainable Agriculture.**
 
-   ```bash
-   bash Miniforge3-Linux-aarch64.sh
-   ```
+**“지속가능한 농업으로의 전세계적 전환을 가속화한다” with .AGRIBOT.**
 
-   - 모든건 yes로 대답하고, 기본값을 사용해준다.
 
-   ```bash
-   Miniforge3 will now be installed into this location:
-   /home/pi/miniforge3
-   
-     - Press ENTER to confirm the location
-     - Press CTRL-C to abort the installation
-     - Or specify a different location below
-   
-   [/home/pi/miniforge3] >>>
-   ```
 
-   - 정상 수행되면, 마지막 질문에 대답하면 됩니다.
+## Q&A
 
-   ```bash
-   Transaction finished
-   installation finished.
-   Do you wish the installer to initialize Miniforge3
-   by running conda init? [yes/no]
-   [no] >>> yes
-   ```
+**<질문>** 스마트팜을 도입하려는 농장주의 재배 작물이 다양할 수 있는데, 사과, 딸기, 오렌지, 참외 등 다양한 작물에 대해 분류할 수 있는 방안이 있나요?
 
-   - 설치가 완료되었다면 아래 절차를 이행해줍니다.
-
-   ```bash
-   conda config --set auto_activate_base false
-   export PATH=$PATH:/home/pi/miniforge3/bin
-   ```
-
-   (필자는 사용자명을 pi로 두었기에 저렇게 환경변수 설정을 해주었으나, 사용자명에 맞게 위 사용자명 부분을 수정해서 사용하면 된다)
-
-   - 이후 재부팅을 해준다.
-
-   ```bash
-   sudo reboot
-   ```
-
-   (그러면 이제 터미널을 켤때 앞에 (base)가 붙은것을 확인할 수 있는데, 이는 정상적으로 아나콘다 프롬프트가 적용되었다는 뜻입니다.)
-
-3. 이후  `elecbro.yml` 파일을 활용하여 가상환경을 만들어줍니다.
-   ```bash
-   conda env create --file ./envs/elecbro.yaml
-   ```
-
-   
-
-4. 만들어진 가상환경을 실행시켜줍니다.
-
-   ```bash
-   conda activate elecbro
-   ```
-
-   
+**<답변>** YOLOv5 기반 비전 모델을 통해 농작물의 범주를 고려한 다양한 비전 모델을 개발할 계획이며, 농장 환경에 맞는 데이터를 확보하면 맞춤형 모델 제작이 가능해 작물 종류에 따른 제약이 없습니다.
 
 
 
 
 
-## Built With
 
-  - [Contributor Covenant](https://www.contributor-covenant.org/) - Used
-    for the Code of Conduct
-  - [Creative Commons](https://creativecommons.org/) - Used to choose
-    the license
 
 ## Contributing
 
-- 윤성웅(전자공학부 20학번)
-- 김현근(전기공학부 19학번)
-- 박진석(전기공학부 19학번)
+- 윤성웅(전자공학부 20학번): 지능신호처리연구실 학부연구생
+- 김현근(전기공학부 19학번): 자율군집SW연구센터 학부연구생
+- 박진석(전기공학부 19학번): 임베디드시스템플랫폼 연구실 학부연구생
 - 김재원(전기공학부 19학번)
 - 김용진(전기공학부 18학번)
-
+- 김동혁(전자공학부 24학번)
