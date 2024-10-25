@@ -2,6 +2,10 @@ import cv2
 import time
 import copy
 
+"""
+OpenCV를 사용하여 주어진 라벨범위까지 사진을 찍는 매크로 코드
+"""
+
 # 카메라 초기화
 cap = cv2.VideoCapture(1)
 
