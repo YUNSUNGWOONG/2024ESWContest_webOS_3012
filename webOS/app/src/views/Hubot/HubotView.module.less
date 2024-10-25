@@ -1,0 +1,83 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #a6b28f; /* 배경색 */
+    padding: 20px;
+}
+
+.title {
+    font-size: 200px;
+    margin-bottom: 150px;
+    text-align: center;
+}
+
+.gridContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 20px;
+    width: 80%;
+    height: 60%;
+}
+
+.widget {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 100px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.widget h2 {
+    font-weight: bold;
+    color: #a6b28f; /* ���ϴ� ���� �ڵ�� ���� */
+    font-size: 80px;
+    text-align: center;
+}
+
+.formGroup {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 400px; /* �ʺ� ���� */
+}
+
+.formLabel {
+    font-size: 40px; /* ���� ũ�� */
+    font-weight: bolder; /* ���� ���� */
+    margin-left: -200px; /* Label�� �������� �̵� */
+    color: #000; /* ���� �� */
+}
+
+.selectBox, .inputBox {
+    margin-right: -200px; /* Label�� �������� �̵� */
+    width: 300px; /* �ʺ� ���� */
+    padding: 10px; /* ���� �е� */
+    border-radius: 5px; /* �ڽ��� �ձ� �𼭸� */
+    border: 1px solid #ccc; /* �ڽ� �׵θ� */
+}
+
+
+.widget iframe {
+    width: 110%;
+    height: 140%;
+    border: none; /* iframe 테두리를 없앱니다 */
+}
+
+
+.submitButton {
+    padding: 10px 20px;
+    font-size: 40px;
+    font-weight: bolder; /* ���� ���� */
+    color: #a6b28f;
+    width: 30%;
+    height: 80px;
+}
