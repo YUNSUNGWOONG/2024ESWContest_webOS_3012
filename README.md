@@ -39,7 +39,7 @@
 
 ##  💻아키텍처
 
-
+![brave_mzQNmdiKvy](./assets/images/README/brave_mzQNmdiKvy.webp)
 
 ## 🎮기능
 
