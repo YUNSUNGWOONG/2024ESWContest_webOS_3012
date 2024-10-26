@@ -189,10 +189,6 @@
 
 ![firefox_rsGu0FOLmr](./assets/images/README/firefox_rsGu0FOLmr.webp)
 
-
-
-
-
 <hr>
 
 ![firefox_k7rLEkXU9k](./assets/images/README/firefox_k7rLEkXU9k.webp)
