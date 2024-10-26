@@ -1,7 +1,7 @@
 # 2024임베디드SW경진대회(webOS부문) - ELECBRO팀
 <p align="center">
   <br>
- 	<img src="" alt="elebro_logo" style="zoom:50%;" />
+ 	<img src="./assets/images/README/image-20241026190510507.png" alt="elebro_logo" style="zoom:50%;" />
   <br>
 </p>
 
