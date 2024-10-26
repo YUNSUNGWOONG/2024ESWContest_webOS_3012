@@ -149,7 +149,7 @@
 ## ※Appendix
 
 <details>
-<summary>I. Q&A </summary><br/>
+<summary><h2>I. Q&A </h2></summary><br/>
 **<질문1>** 스마트팜을 도입하려는 농장주의 재배 작물이 다양할 수 있는데, 사과, 딸기, 오렌지, 참외 등 다양한 작물에 대해 분류할 수 있는 방안이 있나요?
 
 
