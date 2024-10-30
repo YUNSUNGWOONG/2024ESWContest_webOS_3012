@@ -125,7 +125,7 @@
 
 ## 📋개발일정
 
-![image-20241026005432968](./assets/images/README/image-20241026005432968.png)
+![image-20241031033843808](./assets/images/README/image-20241031033843808.png)
 
 
 
