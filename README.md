@@ -1,7 +1,7 @@
 # 2024임베디드SW경진대회(webOS부문) - ELECBRO팀
 <div align="right">
 <a href="https://github.com/YUNSUNGWOONG/2024ESWContest_webOS_3012"><img src="https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white"/></a>
-<a href="https://www.youtube.com/watch?v=8vGp5RCuV1c&list=PL55PqTOxkIlj9y1oz22rkJxP7jqsUbBGb&index=1"><img src="https://img.shields.io/badge/YouTube-%23FF0000.svg?style=for-the-badge&logo=YouTube&logoColor=white"/></a>
+<a href="https://www.youtube.com/watch?v=ZIrqg9aFhHY&t=4s"><img src="https://img.shields.io/badge/YouTube-%23FF0000.svg?style=for-the-badge&logo=YouTube&logoColor=white"/></a>
 <a href="https://velog.io/@2170004487z/series/%EC%A0%9C22%ED%9A%8C-%EC%9E%84%EB%B2%A0%EB%94%94%EB%93%9CSW%EA%B2%BD%EC%A7%84%EB%8C%80%ED%9A%8C" target="_blank"><img src="https://img.shields.io/badge/Velog_(2170004487z)-20C997?style=for-the-badge&logo=velog&logoColor=white"/></a>
 </div>
 
